@@ -9,12 +9,17 @@
     return " Объект заспавнен!";
   }
  window.onload = function() {  
-    let canvas = document.getElementById("screen");
-    if (canvas) {  
-   let ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ff007f";
-      ctx.fillRect(150, 150, 100, 100);
-  }
+   function gameLoop() {
+     let canvas = document.getElementById("screen")
+     if (canvas) {
+       let ctx = canvas.getContext("2d");
+       ctx.clearRect(0, 0, canvas.width, canvas.height);
+       ctx.fillStyle = "#ff007f";
+       ctx.fillRect(150, 150, 100, 100);
+     }
+     requestAnimationFrame(gameLoop);
+   }
+   gameLoop();
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
  };
 </script>
