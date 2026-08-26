@@ -3,7 +3,7 @@
 <script>
   function parser(line) {
     let parts = line.replace(/[{}]/g, "").split(".");
-    if (parts.length === 3) {
+    if (parts.length === 3)
       return " Режим 2D запущен! Предел: ЙААА!";
     if (parts.length === 4) return " Режим 3D запущен!";
     return " Объект заспавнен!";
