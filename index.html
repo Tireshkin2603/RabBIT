@@ -8,9 +8,14 @@
     if (parts.length === 4) return " Режим 3D запущен!";
     return " Объект заспавнен!";
   }
+  let cubeX = 150;
  let cubeY = 50;
   let speedY = 0;
   let graviti = 0.5;
+  windows.addEventListener("keydown",function(e) {
+    if (e.key === "ArrowLeft") cubeX -= 15;
+    if (e.key === "ArrowRight") cubeX += 15;
+  });
    function gameLoop() {
      let canvas = document.getElementById("screen")
      if (canvas) {
@@ -25,7 +30,7 @@
          speedY = 0;
        }
        ctx.fillStyle = "#ff007f";
-       ctx.fillRect(150, cubeY, 100, 100);
+       ctx.fillRect(cubeX, cubeY, 100, 100);
      }
      requestAnimationFrame(gameLoop);
    }
