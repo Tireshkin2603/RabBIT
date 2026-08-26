@@ -1,8 +1,14 @@
 Привет от Тирешкина!RabBIT на 1000 FPS!
+<canvas id="screen" style="background:#000; display:block; margin:auto; width:400px; height:400px; border:2px solid #ff007f;"></canvas>
 <script>
   function parser(line) {
     let parts = line.replace(/[{}]/g, "").split(".");
-    if (parts.length === 3) return " Режим 2D запущен!";
+    if (parts.length === 3) {
+      let canvas = document.getElementById("screen");
+      let ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ff007f";
+      ctx.fillRect(150, 150, 100, 100);
+      return " Режим 2D запущен! Предел: ЙААА!";
     if (parts.length === 4) return " Режим 3D запущен!";
     return " Объект заспавнен!";
   }
