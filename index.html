@@ -1,1 +1,10 @@
 Привет от Тирешкина!RabBIT на 1000 FPS!
+<script>
+  function parser(line) {
+    let parts = line.replace(/[{}]/g, "").split(".");
+    if (parts.length === 3) return " Режим 2D запущен!";
+    if (parts.length === 4) return " Режим 3D запущен!";
+    return " Объект заспавнен!";
+  }
+  console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
+</script>
