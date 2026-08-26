@@ -4,14 +4,17 @@
   function parser(line) {
     let parts = line.replace(/[{}]/g, "").split(".");
     if (parts.length === 3) {
-      let canvas = document.getElementById("screen");
-      let ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ff007f";
-      ctx.fillRect(150, 150, 100, 100);
       return " Режим 2D запущен! Предел: ЙААА!";
     if (parts.length === 4) return " Режим 3D запущен!";
     return " Объект заспавнен!";
   }
+ window.onload = function() {  
+    let canvas = document.getElementById("screen");
+    if (canvas) {  
+   let ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ff007f";
+      ctx.fillRect(150, 150, 100, 100);
   }
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
+ };
 </script>
