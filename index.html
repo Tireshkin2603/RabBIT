@@ -8,7 +8,7 @@
     if (parts.length === 4) return " Режим 3D запущен!";
     return " Объект заспавнен!";
   }
- window.onload = function() {  
+ 
    function gameLoop() {
      let canvas = document.getElementById("screen")
      if (canvas) {
@@ -19,6 +19,7 @@
      }
      requestAnimationFrame(gameLoop);
    }
+   window.onload = function() { 
    gameLoop();
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
  };
