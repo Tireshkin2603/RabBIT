@@ -14,6 +14,8 @@
   let graviti = 0.5;
   let isLeft = false
   let isRight = false
+  let lastTime = performance.now();
+  let fps = 0;
   window.addEventListener("keydown",function(e) {
     if (e.key === "ArrowLeft") isLeft = true;
     if (e.key === "ArrowRight") isRight = true;
@@ -40,6 +42,11 @@
        ctx.fillStyle = "#ff007f";
        ctx.fillRect(cubeX, cubeY, 100, 100);
      }
+     let now = performance.now();
+     fps = Math.round(1000 / (now - lastTime));
+     ctx.fillStyle = "#00ffcc";
+     ctx.font = "16px Arial";
+     ctx.fillText("FPS: " + fps, 10, 25);
      requestAnimationFrame(gameLoop);
    }
    window.onload = function() { 
