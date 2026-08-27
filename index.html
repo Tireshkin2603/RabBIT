@@ -51,11 +51,10 @@
      ctx.fillStyle = "#00ffcc";
      ctx.font = "16px Arial";
      ctx.fillText("FPS: " + fps, 10, 25);
-    queueMicrotask(gameLoop);
      }
    }
    window.onload = function() { 
-    queueMicrotask(gameLoop);
+    setInterval(gameLoop, 2.7);
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
  };
 </script>
