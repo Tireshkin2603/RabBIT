@@ -41,12 +41,13 @@
        }
        ctx.fillStyle = "#ff007f";
        ctx.fillRect(cubeX, cubeY, 100, 100);
-     }
+     
      let now = performance.now();
      fps = Math.round(1000 / (now - lastTime));
      ctx.fillStyle = "#00ffcc";
      ctx.font = "16px Arial";
      ctx.fillText("FPS: " + fps, 10, 25);
+     }
      requestAnimationFrame(gameLoop);
    }
    window.onload = function() { 
