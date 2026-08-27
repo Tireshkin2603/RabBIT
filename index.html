@@ -12,11 +12,19 @@
  let cubeY = 50;
   let speedY = 0;
   let graviti = 0.5;
+  let isLeft = false
+  let isRight = false
   window.addEventListener("keydown",function(e) {
-    if (e.key === "ArrowLeft") cubeX -= 15;
-    if (e.key === "ArrowRight") cubeX += 15;
+    if (e.key === "ArrowLeft") isLeft = true;
+    if (e.key === "ArrowRight") isRightt = true;
+  });
+  window.addEventListener("keyup",function(e) {
+    if (e.key === "ArrowLeft") isLeft = false;
+    if (e.key === "ArrowRight") isRightt = false;
   });
    function gameLoop() {
+     if (isLeft) cubeX -= 4;
+     if (isRight) cubeX += 4;
      let canvas = document.getElementById("screen")
      if (canvas) {
        let ctx = canvas.getContext("2d");
