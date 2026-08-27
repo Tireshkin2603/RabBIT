@@ -15,6 +15,7 @@
   let isLeft = false
   let isRight = false
   let fps = 0;
+  let lastTime = performance.now();
   window.addEventListener("keydown",function(e) {
     if (e.key === "ArrowLeft") isLeft = true;
     if (e.key === "ArrowRight") isRight = true;
