@@ -16,11 +16,11 @@
   let isRight = false
   window.addEventListener("keydown",function(e) {
     if (e.key === "ArrowLeft") isLeft = true;
-    if (e.key === "ArrowRight") isRightt = true;
+    if (e.key === "ArrowRight") isRight = true;
   });
   window.addEventListener("keyup",function(e) {
     if (e.key === "ArrowLeft") isLeft = false;
-    if (e.key === "ArrowRight") isRightt = false;
+    if (e.key === "ArrowRight") isRight = false;
   });
    function gameLoop() {
      if (isLeft) cubeX -= 4;
