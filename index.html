@@ -51,11 +51,11 @@
      ctx.fillStyle = "#00ffcc";
      ctx.font = "16px Arial";
      ctx.fillText("FPS: " + fps, 10, 25);
-    requestAnimationFrame(gameLoop);
+    setTimeout(gameLoop, 0);
      }
    }
    window.onload = function() { 
-   gameLoop();
+    setTimeout(gameLoop, 0);
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
  };
 </script>
