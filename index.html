@@ -194,6 +194,8 @@
 <script>
 let lastTime = performance.now();
 let fps = 0;
+    let rabbitImg = new Image();
+    rabbitImg.src = "RabBIT icon.svg";
 
 function studioLoop() {
     let canvas = document.getElementById("screen");
@@ -204,7 +206,7 @@ function studioLoop() {
         ctx.fillStyle = "#333";
         ctx.font = "18px monospace";
         ctx.textAlign = "center";
-        ctx.fillText("[ Студия готова к загрузке спрайтов ]", canvas.width / 2, canvas.height / 2);
+        ctx.drawImage(rabbitImg, canvas.width / 2 - 75, canvas.height / 2 - 75, 150, 150);
 
         let now = performance.now();
         let duration = now - lastTime;
