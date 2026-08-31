@@ -75,34 +75,24 @@
             letter-spacing: 0.5px;
         }
         .btn {
-            background: #1c1c28;
-            color: #00ffcc;
-            border: 1px solid #00ffcc;
-            border-radius: 4px;
-            padding: 8px 12px;
-            margin-bottom: 12px;
-            font-weight: bold;
-            font-family: monospace;
-            font-size: 13px;
-            cursor: pointer;
-            text-align: left;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
+           border-image: url('block-move.svg') 15 40 15 30 fill repeat;
+    border-image-width: 15px 40px 15px 30px;
+    color: #fff;
+    border-style: solid;
+    min-width: 180px;
+    max-width: 290px;
+    height: 45px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 13px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
         .btn::after {
-            content: "";
-            position: absolute;
-            bottom: -6px;
-            left: 25px;
-            width: 12px;
-            height: 6px;
-            background: inherit;
-            border-left: 1px solid inherit;
-            border-right: 1px solid inherit;
-            border-bottom: 1px solid inherit;
-            border-bottom-left-radius: 3px;
-            border-bottom-right-radius: 3px;
-            z-index: 2;
+            display: none;
         }
         .btn-input {
             background: #000;
