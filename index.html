@@ -10,204 +10,238 @@
             color: #00ffcc;
             font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
-            flex-direction: column;
             height: 100vh;
             box-sizing: border-box;
+            overflow: hidden;
+            gap: 15px;
         }
-        h1 {
+        .panel-title {
             color: #ff007f;
-            text-align: center;
-            margin: 0 0 15px 0;
-            text-shadow: 0 0 10px #ff007f;
-            font-size: 24px;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
         }
-        #studio-layout {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            height: calc(100% - 60px);
-        }
-        .sidebar {
+        #blocks-sidebar {
+            width: 310px;
             background: #14141f;
             border: 2px solid #333;
             border-radius: 8px;
             padding: 15px;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            width: 320px;
-            box-sizing: border-box;
+            overflow-y: auto;
         }
-        #canvas-zone {
+        #blocks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #center-zone {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+        #scene-zone {
             background: #050508;
             border: 2px solid #ff007f;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            flex: 1;
+            min-height: 320px;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
         }
         canvas {
             background: #111;
             border: 2px dashed #333;
-            box-shadow: inset 0 0 20px #000;
-            width: 450px;
-            height: 450px;
+            width: 95%;
+            height: 85%;
         }
-        .section-title {
-            color: #ff007f;
+        #scene-controls {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: monospace;
             font-weight: bold;
-            font-size: 14px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #ff007f;
-            padding-bottom: 5px;
-            letter-spacing: 1px;
+            font-size: 12px;
         }
-        .block-category {
+        .control-flag { color: #00ff00; cursor: pointer; font-size: 16px; }
+        .control-stop { color: #ff0000; cursor: pointer; font-size: 16px; }
+        #fps-badge { color: #00ffcc; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; }
+        #fullscreen-btn { position: absolute; top: 10px; right: 15px; color: #00ffcc; cursor: pointer; font-size: 16px; }
+        #workspace-zone {
+            height: 250px;
+            background: #14141f;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        #right-sidebar {
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+        #sprites-panel {
+            flex: 1;
+            background: #14141f;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        #bg-panel {
+            height: 180px;
+            background: #14141f;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .bg-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 24px;
+        }
+        .bg-btn {
+            background: #201018;
+            border: 1px solid #ff007f;
+            color: #ff007f;
+            border-radius: 4px;
+            padding: 5px;
             font-size: 11px;
             font-weight: bold;
-            margin: 15px 0 5px 0;
-            letter-spacing: 0.5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
         }
         .btn {
-          border-image: url('block-move.svg') 10 120 10 90 fill stretch;
-    border-image-width: 10px 120px 10px 90px;
-    color: #ffffff;
-    border-style: solid;
-    width: fit-content;
-    display: inLine-flex;
-    height: 50px;
-    padding: 0 55px 4px 10px;
-    align-items: center;
-    font-weight: bold;
-    font-family: monospace;
-    font-size: 15px;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin-bottom: 12px;
-    min-width: 212px;
-    white-space: nowrap;
-}
-        .btn::after {
-            display: none;
+            border-image: url('block-move.svg') 10 120 10 90 fill stretch;
+            border-image-width: 10px 120px 10px 90px;
+            color: #ffffff;
+            border-style: solid;
+            width: fit-content;
+            min-width: 212px;
+            white-space: nowrap;
+            display: inline-flex;
+            height: 46px;
+            padding: 0 55px 4px 10px;
+            align-items: center;
+            justify-content: flex-start;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            box-sizing: border-box;
         }
         .btn-input {
             background: #ffffff;
-    color: #000000;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 38px;
-    height: 20px;
-    text-align: center;
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    outline: none;
-    position: relative;
-    vertical-align: middle;
-    pointer-events: none;
-
-        }
-        #sprite-list {
-            flex: 1;
-            overflow-y: auto;
-            background: #09090d;
-            border: 1px solid #222;
-            padding: 10px;
+            color: #000000;
+            border: 1px solid #ccc;
             border-radius: 4px;
-        }
-        #info-box {
-            background: #000;
-            border: 1px solid #222;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 12px;
-            color: #888;
-            margin-top: 15px;
-            height: 100px;
-            overflow-y: auto;
-        }
-        #fps-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0,0,0,0.8);
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: 1px solid #00ffcc;
-            font-family: monospace;
+            width: 35px;
+            height: 18px;
+            text-align: center;
             font-weight: bold;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            outline: none;
+            position: relative;
+            vertical-align: middle;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>🚀  RabBIT SPRITE STUDIO v1.0 🚀 </h1>
+    <div id="blocks-sidebar">
+        <div class="panel-title">ТИПЫ БЛОКОВ</div>
+        <div id="blocks-list">
+            <div class="btn">Идти <input type="text" class="btn-input" value="15" style="margin: 0 5px;"> шагов</div>
+            <div class="btn">Перейти в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
+            <div class="btn">Изменить x на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+        </div>
+    </div>
 
-    <div id="studio-layout">
-        <div class="sidebar" style="overflow-y: auto;">
-            <div class="section-title">Конструктор RabBIT</div>
-            
-            <div class="block-category" style="color: #ff007f; margin-top: 0;">👂 СОБЫТИЯ (СВЕРХУ УШКИ)</div>
-            <div class="btn" style="border-color: #ff007f;">👂 Когда флажок нажат</div>
-            
-<div class="block-category" style="color: #00ffcc;">ДВИЖЕНИЕ В 2D (БЕГУЩИЙ КРОЛИК)</div>
-<div class="btn">Идти <input type="text" class="btn-input" value="15" style="margin: 0 5px;"> шагов</div>
-<div class="btn">Перейти в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
-<div class="btn">Изменить x на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-<div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-<div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-<div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-<div class="btn">Плавать в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
-<div class="btn">Задать поворот в <input type="text" class="btn-input" value="90" style="margin: 0 5px;">°</div>
-<div class="btn">Повернуть на <input type="text" class="btn-input" value="15" style="margin: 0 5px;">°</div>
-            
-            <div class="btn" style="border-color: #ff007f; color: #ff007f; background: #201018; margin-top: auto; text-align: center;">💾  Экспорт .rbbit</div>
+    <div id="center-zone">
+        <div id="scene-zone">
+            <div id="scene-controls">
+                <span class="control-flag" title="Старт">▶</span>
+                <span class="control-stop" title="Стоп">🛑 </span>
+                <span id="fps-badge">FPS: <span id="fps-val">60</span></span>
+            </div>
+            <canvas id="screen"></canvas>
+            <span id="fullscreen-btn" title="На весь экран">⛶</span>
         </div>
 
-        <div id="canvas-zone">
-            <div id="fps-badge">ENGINE FPS: <span id="fps-val">60</span></div>
-            <canvas id="screen" width="450" height="450"></canvas>
+        <div id="workspace-zone">
+            <div style="color: #444; font-family: monospace; font-size: 13px;">> Перетащите сюда блоки для сборки скриптов...</div>
+        </div>
+    </div>
+
+    <div id="right-sidebar">
+        <div id="sprites-panel">
+            <div class="panel-title" style="color: #ffff00;">СПИСОК СПРАЙТОВ</div>
+            <div style="color: #666; font-size: 12px; font-family: monospace; text-align: center; margin-top: 10px; margin-bottom: 15px;">
+                rabbit.svg (Рэбик)
+            </div>
+            <button class="bg-btn" style="border-color: #ffff00; color: #ffff00; margin-top: auto;">+ Создать спрайт</button>
         </div>
 
-        <div class="sidebar">
-            <div class="section-title">Слои и Спрайты</div>
-            <div id="sprite-list">
-                <div style="color: #555; text-align: center; margin-top: 50px;">Нет активных спрайтов.<br>Загрузите первое свободное изображение!</div>
-            </div>
-            
-            <div class="section-title" style="margin-top: 20px;">Системный Лог</div>
-            <div id="info-box">
-                > Студия RabBIT запущена...<br>
-                > Дисплей: Viseo223DX (60 Гц)<br>
-                > Карта: NVIDIA GeForce GT 740<br>
-                > Сетка отключена верховным архитектором.<br>
-                > 9 блоков 2D движения запечатаны по ГОСТу.
-            </div>
+        <div id="bg-panel">
+            <div class="panel-title" style="color: #a0a0ff; margin-bottom: 0;">ФОН</div>
+            <div class="bg-icons">🕳️  🐇 </div>
+            <button class="bg-btn">+ Создать фон</button>
         </div>
     </div>
 
 <script>
 let lastTime = performance.now();
 let fps = 0;
-    let rabbitImg = new Image();
-    rabbitImg.src = "rabbit.svg";
+
+let rabbitImg = new Image();
+rabbitImg.src = "rabbit.svg";
 
 function studioLoop() {
     let canvas = document.getElementById("screen");
     if (canvas) {
         let ctx = canvas.getContext("2d");
+        
+        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = "#333";
-        ctx.font = "18px monospace";
-        ctx.textAlign = "center";
-        ctx.drawImage(rabbitImg, canvas.width / 2 - 111, canvas.height / 2 - 171, 223, 342);
+        ctx.drawImage(rabbitImg, canvas.width / 2 - 50, canvas.height / 2 - 75, 100, 150);
 
         let now = performance.now();
         let duration = now - lastTime;
