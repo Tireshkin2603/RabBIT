@@ -35,7 +35,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            width: 280px;
+            width: 320px;
             box-sizing: border-box;
         }
         #canvas-zone {
@@ -65,28 +65,52 @@
             padding-bottom: 5px;
             letter-spacing: 1px;
         }
+        .block-category {
+            font-size: 11px;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            letter-spacing: 0.5px;
+        }
         .btn {
             background: #1c1c28;
             color: #00ffcc;
             border: 1px solid #00ffcc;
             border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
             font-weight: bold;
+            font-family: monospace;
+            font-size: 13px;
             cursor: pointer;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .btn::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 25px;
+            width: 12px;
+            height: 6px;
+            background: inherit;
+            border-left: 1px solid inherit;
+            border-right: 1px solid inherit;
+            border-bottom: 1px solid inherit;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            z-index: 2;
+        }
+        .btn-input {
+            background: #000;
+            color: #ffff00;
+            border: none;
+            width: 35px;
             text-align: center;
-            transition: all 0.2s;
-        }
-        .btn:hover {
-            background: #ff007f;
-            color: #fff;
-            border-color: #ff007f;
-            box-shadow: 0 0 10px #ff007f;
-        }
-        .btn-active {
-            background: #ff007f;
-            color: #fff;
-            border-color: #ff007f;
+            font-weight: bold;
+            font-family: monospace;
+            border-radius: 2px;
+            pointer-events: none;
         }
         #sprite-list {
             flex: 1;
@@ -125,12 +149,24 @@
     <h1>🚀  RabBIT SPRITE STUDIO v1.0 🚀 </h1>
 
     <div id="studio-layout">
-        <div class="sidebar">
-            <div class="section-title">Инструменты создания</div>
-            <div class="btn btn-active">✏️  Свободный холст</div>
-            <div class="btn">📂  Загрузить изображение</div>
-            <div class="btn">✂️  Вырезать спрайт</div>
-            <div class="btn" style="border-color: #ff007f; color: #ff007f;">💾  Экспортировать .rbbit</div>
+        <div class="sidebar" style="overflow-y: auto;">
+            <div class="section-title">Конструктор RabBIT</div>
+            
+            <div class="block-category" style="color: #ff007f; margin-top: 0;">👂 СОБЫТИЯ (СВЕРХУ УШКИ)</div>
+            <div class="btn" style="border-color: #ff007f;">👂 Когда флажок нажат</div>
+            
+            <div class="block-category" style="color: #00ffcc;">🐇 💨  ДВИЖЕНИЕ В 2D (БЕГУЩИЙ КРОЛИК)</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Идти [<input type="text" class="btn-input" value="15">] шагов</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Перейти в x:[<input type="text" class="btn-input" value="0">] y:[<input type="text" class="btn-input" value="0">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Изменить x на [<input type="text" class="btn-input" value="15">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Задать x в [<input type="text" class="btn-input" value="15">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Изменить y на [<input type="text" class="btn-input" value="15">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Задать y в [<input type="text" class="btn-input" value="15">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Плавать в x:[<input type="text" class="btn-input" value="0">] y:[<input type="text" class="btn-input" value="0">]</div>
+            <div class="btn" style="border-color: #00ffcc;">🐇 💨  Задать поворот в [<input type="text" class="btn-input" value="90">]°</div>
+            <div class="btn" style="border-color: #00ffcc; margin-bottom: 20px;">🐇 💨  Повернуть на [<input type="text" class="btn-input" value="15">]°</div>
+            
+            <div class="btn" style="border-color: #ff007f; color: #ff007f; background: #201018; margin-top: auto; text-align: center;">💾  Экспорт .rbbit</div>
         </div>
 
         <div id="canvas-zone">
@@ -147,9 +183,10 @@
             <div class="section-title" style="margin-top: 20px;">Системный Лог</div>
             <div id="info-box">
                 > Студия RabBIT запущена...<br>
-                > Дисплей: NVIDIA GT 740 (60 Гц)<br>
+                > Дисплей: Viseo223DX (60 Гц)<br>
+                > Карта: NVIDIA GeForce GT 740<br>
                 > Сетка отключена верховным архитектором.<br>
-                > Режим свободного позиционирования активен.
+                > 9 блоков 2D движения запечатаны по ГОСТу.
             </div>
         </div>
     </div>
