@@ -1,61 +1,206 @@
-Привет от Тирешкина!RabBIT на 1000 FPS!
-<canvas id="screen" width="400" height="400" style="background:#000; display:block; margin:auto; border:2px solid #ff007f;"></canvas>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>RabBIT Sprite Studio v1.0</title>
+    <style>
+        body {
+            background: #0d0d13;
+            color: #00ffcc;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #ff007f;
+            text-align: center;
+            margin: 0 0 15px 0;
+            text-shadow: 0 0 10px #ff007f;
+            font-size: 24px;
+        }
+        #studio-layout {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            height: calc(100% - 60px);
+        }
+        .sidebar {
+            background: #14141f;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            width: 280px;
+            box-sizing: border-box;
+        }
+        #canvas-zone {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #050508;
+            border: 2px solid #ff007f;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            position: relative;
+        }
+        canvas {
+            background: #111;
+            border: 2px dashed #333;
+            box-shadow: inset 0 0 20px #000;
+        }
+        .section-title {
+            color: #ff007f;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ff007f;
+            padding-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .btn {
+            background: #1c1c28;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #ff007f;
+            color: #fff;
+            border-color: #ff007f;
+            box-shadow: 0 0 10px #ff007f;
+        }
+        .btn-active {
+            background: #ff007f;
+            color: #fff;
+            border-color: #ff007f;
+        }
+        #sprite-list {
+            flex: 1;
+            overflow-y: auto;
+            background: #09090d;
+            border: 1px solid #222;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #info-box {
+            background: #000;
+            border: 1px solid #222;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #888;
+            margin-top: 15px;
+            height: 100px;
+            overflow-y: auto;
+        }
+        #fps-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #00ffcc;
+            font-family: monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀  RabBIT SPRITE STUDIO v1.0 🚀 </h1>
+
+    <div id="studio-layout">
+        <div class="sidebar">
+            <div class="section-title">Инструменты создания</div>
+            <div class="btn btn-active">✏️  Редактор пикселей</div>
+            <div class="btn">📂  Загрузить изображение</div>
+            <div class="btn">✂️  Вырезать спрайт</div>
+            <div class="btn" style="border-color: #ff007f; color: #ff007f;">💾  Экспортировать .RBT</div>
+            
+            <div class="section-title" style="margin-top: 20px;">Настройки сетки</div>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+              <div class="btn" style="flex: 1; margin: 0;">16x16</div>
+                <div class="btn" style="flex: 1; margin: 0;">32x32</div>
+                <div class="btn" style="flex: 1; margin: 0;">64x64</div>
+            </div>
+        </div>
+
+        <div id="canvas-zone">
+            <div id="fps-badge">ENGINE FPS: <span id="fps-val">60</span></div>
+            <canvas id="screen" width="450" height="450"></canvas>
+        </div>
+
+        <div class="sidebar">
+            <div class="section-title">Слои и Спрайты</div>
+            <div id="sprite-list">
+                <div style="color: #555; text-align: center; margin-top: 50px;">Нет active спрайтов.<br>Создайте или загрузите первый слой!</div>
+            </div>
+            
+            <div class="section-title" style="margin-top: 20px;">Системный Лог</div>
+            <div id="info-box">
+                > Студия RabBIT запущена...<br>
+                > Дисплей: NVIDIA GT 740 (60 Гц)<br>
+                > Нано-парсер готов к дешифрации...
+            </div>
+        </div>
+    </div>
+
 <script>
-  function parser(line) {
-    let parts = line.replace(/[{}]/g, "").split(".");
-    if (parts.length === 3)
-      return " Режим 2D запущен! Предел: ЙААА!";
-    if (parts.length === 4) return " Режим 3D запущен!";
-    return " Объект заспавнен!";
-  }
-  let cubeX = 150;
- let cubeY = 50;
-  let speedY = 0;
-  let graviti = 0.5;
-  let isLeft = false
-  let isRight = false
-  let fps = 0;
-  let lastTime = performance.now();
-  window.addEventListener("keydown",function(e) {
-    if (e.key === "ArrowLeft") isLeft = true;
-    if (e.key === "ArrowRight") isRight = true;
-  });
-  window.addEventListener("keyup",function(e) {
-    if (e.key === "ArrowLeft") isLeft = false;
-    if (e.key === "ArrowRight") isRight = false;
-  });
-   function gameLoop() {
-     if (isLeft) cubeX -= 4;
-     if (isRight) cubeX += 4;
-     let canvas = document.getElementById("screen")
-     if (canvas) {
-       let ctx = canvas.getContext("2d");
-       ctx.clearRect(0, 0, canvas.width, canvas.height);
+let lastTime = performance.now();
+let fps = 0;
 
-       speedY += graviti;
-       cubeY += speedY;
+function studioLoop() {
+    let canvas = document.getElementById("screen");
+    if (canvas) {
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.strokeStyle = "#222";
+        ctx.lineWidth = 1;
+        let gridSize = 32;
+        for (let x = 0; x < canvas.width; x += gridSize) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += gridSize) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        }
+        
+        ctx.fillStyle = "#333";
+        ctx.font = "18px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("[ Место для создания твоего спрайта ]", canvas.width / 2, canvas.height / 2);
 
-       if (cubeY > 300) {
-         cubeY = 300;
-         speedY = 0;
-       }
-       ctx.fillStyle = "#ff007f";
-       ctx.fillRect(cubeX, cubeY, 100, 100);
-     
-     let now = performance.now();
-       let duration = now - lastTime;
-       if (duration > 0) {
-     fps = Math.round(1000 / duration);
-       }
-       lastTime = now;
-     ctx.fillStyle = "#00ffcc";
-     ctx.font = "16px Arial";
-     ctx.fillText("FPS: " + fps, 10, 25);
-     }
-     requestAnimationFrame(gameLoop);
-   }
-   window.onload = function() { 
-    requestAnimationFrame(gameLoop);
-    console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
- };
+        let now = performance.now();
+        let duration = now - lastTime;
+        if (duration > 0) {
+            fps = Math.round(1000 / duration);
+        }
+        lastTime = now;
+        
+        let fpsDisplay = document.getElementById("fps-val");
+        if (fpsDisplay) fpsDisplay.innerText = fps;
+    }
+    requestAnimationFrame(studioLoop);
+}
+
+window.onload = function() {
+    studioLoop();
+};
 </script>
+</body>
+</html>
