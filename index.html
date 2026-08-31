@@ -52,9 +52,10 @@
      ctx.font = "16px Arial";
      ctx.fillText("FPS: " + fps, 10, 25);
      }
+     requestAnimationFrame(gameLoop);
    }
    window.onload = function() { 
-    setInterval(gameLoop, 2.7);
+    requestAnimationFrame(gameLoop);
     console.log(parser("{i.ЯЯЯЯ.ЯЯЯЯ}"));
  };
 </script>
