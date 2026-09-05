@@ -47,11 +47,16 @@
             image-rendering: pixelated;
         }
         .cat-icon:hover { transform: scale(1.1); }
-        .ico-cat-motion { background-position: -222px 0px; }
-        .ico-cat-looks  { background-position: -258px 0px; }
-        .ico-cat-sound  { background-position: -294px 0px; }
-        .ico-cat-events { background-position: -330px 0px; }
-        .ico-cat-control { background-position: -366px 0px; }
+        .ico-cat-motion { background-position: -226px 0px; }
+        .ico-cat-events  { background-position: -262px 0px; }
+        .ico-cat-control  { background-position: -298px 0px; }
+        .ico-cat-ui { background-position: -334px 0px; }
+        .ico-cat-sound { background-position: -370px 0px; }
+        .ico-cat-operators { background-position: -10px -36px; }
+        .ico-cat-sensing  { background-position: -46px -36px; }
+        .ico-cat-variables  { background-position: -82px -36px; }
+        .ico-cat-cheats { background-position: -118px -36px; }
+        .ico-cat-myblocks { background-position: -154px -36px; }
 
         #types-sidebar {
             width: 65px;
@@ -244,7 +249,6 @@
     </div>
 
     <div id="blocks-sidebar">
-        <div style="color: #ff007f; font-weight: bold; font-size: 11px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 3px;">Блоки</div>
         <div id="blocks-list">
             <div class="btn">Идти <input type="text" class="btn-input" value="15" style="margin: 0 5px;"> шагов</div>
             <div class="btn">Перейти в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
@@ -252,7 +256,6 @@
             <div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
             <div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
             <div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-        </div>
     </div>
 
     <div id="center-sector">
@@ -271,27 +274,9 @@
         </div>
 
         <div id="workspace-zone">
-            <div style="color: #ff007f; font-weight: bold; font-size: 11px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 3px;">Место для кодирования</div>
-            <div class="section-vertical-text">Место для кодирования</div>
-        </div>
-    </div>
-
     <div id="right-sidebar">
         <div id="sprites-panel">
-            <div style="color: #ff007f; font-weight: bold; font-size: 11px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 3px;">Список спрайтов</div>
-            <div class="section-vertical-text" style="margin-top: 60px;">Список спрайтов</div>
-        </div>
-
         <div id="bg-panel">
-            <div style="color: #ff007f; font-weight: bold; font-size: 11px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 3px; width: 100%;">Фон</div>
-            <div class="section-vertical-text" style="margin-top: 10px; width: 100%; text-align: left; padding-left: 10px;">Фон</div>
-            <div id="bg-action-buttons">
-                <span class="ui-icon ico-ui-spritebtn" title="Выбрать спрайт"></span>
-                <span class="ui-icon ico-ui-bgbtn" title="Выбрать фон"></span>
-            </div>
-        </div>
-    </div>
-
 <script>
 let rabbitImg = new Image();
 rabbitImg.src = "rabbit.svg";
