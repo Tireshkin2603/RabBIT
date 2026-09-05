@@ -29,8 +29,8 @@
             transform: scale(0.66);
             transform-origin: left center;
         }
-        .ico-ui-flag      { background-position: 0px 0px; }
-        .ico-ui-stop      { background-position: -36px 0px; }
+        .ico-ui-flag       { background-position: 0px 0px; }
+        .ico-ui-stop       { background-position: -36px 0px; }
         .ico-ui-fullscreen { background-position: -72px 0px; }
         .ico-ui-spritebtn  { background-position: -108px 0px; }
         .ico-ui-bgbtn      { background-position: -144px 0px; }
@@ -47,42 +47,34 @@
             image-rendering: pixelated;
         }
         .cat-icon:hover { transform: scale(1.1); }
-        .ico-cat-motion { background-position: -226px 0px; }
-        .ico-cat-events  { background-position: -262px 0px; }
+        
+        .ico-cat-motion   { background-position: -226px 0px; }
+        .ico-cat-events   { background-position: -262px 0px; }
         .ico-cat-control  { background-position: -298px 0px; }
-        .ico-cat-ui { background-position: -334px 0px; }
-        .ico-cat-sound { background-position: -370px 0px; }
-        .ico-cat-operators { background-position: -10px -36px; }
+        .ico-cat-ui       { background-position: -334px 0px; }
+        .ico-cat-sound    { background-position: -370px 0px; }
+        .ico-cat-operators{ background-position: -10px -36px; }
         .ico-cat-sensing  { background-position: -46px -36px; }
-        .ico-cat-variables  { background-position: -82px -36px; }
-        .ico-cat-cheats { background-position: -118px -36px; }
+        .ico-cat-variables{ background-position: -82px -36px; }
+        .ico-cat-cheats   { background-position: -118px -36px; }
         .ico-cat-myblocks { background-position: -154px -36px; }
 
         #types-sidebar {
-            width: 65px;
+            width: 52px;
             background: #14141f;
             border: 2px solid #333;
             border-radius: 8px;
-            padding: 10px 5px;
+            padding: 15px 5px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-        }
-        .sidebar-vertical-title {
-            font-size: 10px;
-            font-weight: bold;
-            color: #ff007f;
-            text-transform: uppercase;
-            writing-mode: vertical-lr;
-            transform: rotate(180deg);
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            gap: 12px;
+            height: 100%;
         }
         #blocks-sidebar {
             width: 280px;
-            height: 100%
+            height: 100%;
             background: #14141f;
             border: 2px solid #333;
             border-radius: 8px;
@@ -103,6 +95,7 @@
             flex-direction: column;
             gap: 12px;
             box-sizing: border-box;
+            height: 100%;
         }
         #scene-zone {
             background: #050508;
@@ -163,9 +156,9 @@
             flex-direction: column;
             gap: 12px;
             box-sizing: border-box;
+            height: 100%;
         }
         #sprites-panel {
-            height: 200px;
             flex: 1;
             background: #14141f;
             border: 2px solid #333;
@@ -226,28 +219,22 @@
             outline: none;
             position: relative;
             vertical-align: middle;
-            pointer-events: none;
-        }
-        .section-vertical-text {
-            font-size: 13px;
-            font-weight: bold;
-            color: #444;
-            text-transform: uppercase;
-            font-family: monospace;
-            text-align: center;
-            margin-top: 40px;
         }
     </style>
 </head>
 <body>
 
     <div id="types-sidebar">
-        <div class="sidebar-vertical-title">Типы блоков</div>
         <div class="cat-icon ico-cat-motion" title="Движение"></div>
-        <div class="cat-icon ico-cat-looks" title="Внешность"></div>
-        <div class="cat-icon ico-cat-sound" title="Звук"></div>
         <div class="cat-icon ico-cat-events" title="События"></div>
         <div class="cat-icon ico-cat-control" title="Управление"></div>
+        <div class="cat-icon ico-cat-ui" title="Интерфейс"></div>
+        <div class="cat-icon ico-cat-sound" title="Звуки"></div>
+        <div class="cat-icon ico-cat-operators" title="Операторы"></div>
+        <div class="cat-icon ico-cat-sensing" title="Сенсоры"></div>
+        <div class="cat-icon ico-cat-variables" title="Переменные"></div>
+        <div class="cat-icon ico-cat-cheats" title="Чит код" style="border: 1px dashed #ff007f;"></div>
+        <div class="cat-icon ico-cat-myblocks" title="Мои блоки" style="border: 1px solid #00ffcc;"></div>
     </div>
 
     <div id="blocks-sidebar">
@@ -258,6 +245,7 @@
             <div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
             <div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
             <div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+        </div>
     </div>
 
     <div id="center-sector">
@@ -275,10 +263,81 @@
             </div>
         </div>
 
-        <div id="workspace-zone">
+        <div id="workspace-zone"></div>
+    </div>
+
     <div id="right-sidebar">
-        <div id="sprites-panel">
+        <div id="sprites-panel"></div>
         <div id="bg-panel">
+            <div id="bg-action-buttons">
+                <span class="ui-icon ico-ui-spritebtn" title="Выбрать спрайт"></span>
+                <span class="ui-icon ico-ui-bgbtn" title="Выбрать фон"></span>
+            </div>
+        </div>
+    </div>
+
+<script>
+let rabbitImg = new Image();
+rabbitImg.src = "rabbit.svg";
+
+function studioLoop() {
+    let canvas = document.getElementById("screen");
+    if (canvas) {
+        let ctx = canvas.getContext("2d");
+        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {<body>
+
+    <div id="types-sidebar">
+        <div class="cat-icon ico-cat-motion" title="Движение"></div>
+        <div class="cat-icon ico-cat-events" title="События"></div>
+        <div class="cat-icon ico-cat-control" title="Управление"></div>
+        <div class="cat-icon ico-cat-ui" title="Интерфейс"></div>
+        <div class="cat-icon ico-cat-sound" title="Звуки"></div>
+        <div class="cat-icon ico-cat-operators" title="Операторы"></div>
+        <div class="cat-icon ico-cat-sensing" title="Сенсоры"></div>
+        <div class="cat-icon ico-cat-variables" title="Переменные"></div>
+        <div class="cat-icon ico-cat-cheats" title="Чит код" style="border: 1px dashed #ff007f;"></div>
+        <div class="cat-icon ico-cat-myblocks" title="Мои блоки" style="border: 1px solid #00ffcc;"></div>
+    </div>
+
+    <div id="blocks-sidebar">
+        <div id="blocks-list">
+            <div class="btn">Идти <input type="text" class="btn-input" value="15" style="margin: 0 5px;"> шагов</div>
+            <div class="btn">Перейти в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
+            <div class="btn">Изменить x на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+            <div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
+        </div>
+    </div>
+
+    <div id="center-sector">
+        <div id="scene-zone">
+            <div id="scene-top-bar">
+                <div id="scene-left-controls">
+                    <span class="ui-icon ico-ui-flag" title="Старт"></span>
+                    <span class="ui-icon ico-ui-stop" title="Стоп"></span>
+                    <span id="fps-badge">FPS: 60</span>
+                </div>
+                <span class="ui-icon ico-ui-fullscreen" title="На весь экран"></span>
+            </div>
+            <div id="canvas-wrapper">
+                <canvas id="screen"></canvas>
+            </div>
+        </div>
+
+        <div id="workspace-zone"></div>
+    </div>
+
+    <div id="right-sidebar">
+        <div id="sprites-panel"></div>
+        <div id="bg-panel">
+            <div id="bg-action-buttons">
+                <span class="ui-icon ico-ui-spritebtn" title="Выбрать спрайт"></span>
+                <span class="ui-icon ico-ui-bgbtn" title="Выбрать фон"></span>
+            </div>
+        </div>
+    </div>
+
 <script>
 let rabbitImg = new Image();
 rabbitImg.src = "rabbit.svg";
@@ -288,6 +347,21 @@ function studioLoop() {
     if (canvas) {
         let ctx = canvas.getContext("2d");
         if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(rabbitImg, canvas.width / 2 - 40, canvas.height / 2 - 60, 80, 120);
+    }
+    requestAnimationFrame(studioLoop);
+}
+
+window.onload = function() {
+    studioLoop();
+};
+</script>
+</body>
+</html>
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
         }
