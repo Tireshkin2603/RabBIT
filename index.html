@@ -219,6 +219,7 @@
             outline: none;
             position: relative;
             vertical-align: middle;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -254,7 +255,7 @@
                 <div id="scene-left-controls">
                     <span class="ui-icon ico-ui-flag" title="Старт"></span>
                     <span class="ui-icon ico-ui-stop" title="Стоп"></span>
-                    <span id="fps-badge">FPS: 60</span>
+                    <span id="fps-badge">FPS: <span id="fps-val">60</span></span>
                 </div>
                 <span class="ui-icon ico-ui-fullscreen" title="На весь экран"></span>
             </div>
@@ -277,6 +278,9 @@
     </div>
 
 <script>
+let lastTime = performance.now();
+let fps = 0;
+
 let rabbitImg = new Image();
 rabbitImg.src = "rabbit.svg";
 
@@ -284,74 +288,23 @@ function studioLoop() {
     let canvas = document.getElementById("screen");
     if (canvas) {
         let ctx = canvas.getContext("2d");
-        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {<body>
-
-    <div id="types-sidebar">
-        <div class="cat-icon ico-cat-motion" title="Движение"></div>
-        <div class="cat-icon ico-cat-events" title="События"></div>
-        <div class="cat-icon ico-cat-control" title="Управление"></div>
-        <div class="cat-icon ico-cat-ui" title="Интерфейс"></div>
-        <div class="cat-icon ico-cat-sound" title="Звуки"></div>
-        <div class="cat-icon ico-cat-operators" title="Операторы"></div>
-        <div class="cat-icon ico-cat-sensing" title="Сенсоры"></div>
-        <div class="cat-icon ico-cat-variables" title="Переменные"></div>
-        <div class="cat-icon ico-cat-cheats" title="Чит код" style="border: 1px dashed #ff007f;"></div>
-        <div class="cat-icon ico-cat-myblocks" title="Мои блоки" style="border: 1px solid #00ffcc;"></div>
-    </div>
-
-    <div id="blocks-sidebar">
-        <div id="blocks-list">
-            <div class="btn">Идти <input type="text" class="btn-input" value="15" style="margin: 0 5px;"> шагов</div>
-            <div class="btn">Перейти в x: <input type="text" class="btn-input" value="0" style="margin-left: 5px; margin-right: 10px;"> y: <input type="text" class="btn-input" value="0" style="margin-left: 5px;"></div>
-            <div class="btn">Изменить x на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-            <div class="btn">Задать x в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-            <div class="btn">Изменить y на <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-            <div class="btn">Задать y в <input type="text" class="btn-input" value="15" style="margin-left: 8px;"></div>
-        </div>
-    </div>
-
-    <div id="center-sector">
-        <div id="scene-zone">
-            <div id="scene-top-bar">
-                <div id="scene-left-controls">
-                    <span class="ui-icon ico-ui-flag" title="Старт"></span>
-                    <span class="ui-icon ico-ui-stop" title="Стоп"></span>
-                    <span id="fps-badge">FPS: 60</span>
-                </div>
-                <span class="ui-icon ico-ui-fullscreen" title="На весь экран"></span>
-            </div>
-            <div id="canvas-wrapper">
-                <canvas id="screen"></canvas>
-            </div>
-        </div>
-
-        <div id="workspace-zone"></div>
-    </div>
-
-    <div id="right-sidebar">
-        <div id="sprites-panel"></div>
-        <div id="bg-panel">
-            <div id="bg-action-buttons">
-                <span class="ui-icon ico-ui-spritebtn" title="Выбрать спрайт"></span>
-                <span class="ui-icon ico-ui-bgbtn" title="Выбрать фон"></span>
-            </div>
-        </div>
-    </div>
-
-<script>
-let rabbitImg = new Image();
-rabbitImg.src = "rabbit.svg";
-
-function studioLoop() {
-    let canvas = document.getElementById("screen");
-    if (canvas) {
-        let ctx = canvas.getContext("2d");
-        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-        }
+        
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(rabbitImg, canvas.width / 2 - 40, canvas.height / 2 - 60, 80, 120);
+        
+        ctx.drawImage(rabbitImg, canvas.width / 2 - 50, canvas.height / 2 - 75, 100, 150);
+
+        let now = performance.now();
+        let duration = now - lastTime;
+        if (duration > 0) {
+            fps = Math.round(1000 / duration);
+        }
+        lastTime = now;
+        
+        let fpsDisplay = document.getElementById("fps-val");
+        if (fpsDisplay) fpsDisplay.innerText = fps;
     }
     requestAnimationFrame(studioLoop);
 }
