@@ -211,7 +211,8 @@
             color: #000000;
             border: 1px solid #ccc;
             border-radius: 4px;
-            width: 35px;
+            min-width: 25px;
+            width: auto;
             height: 18px;
             text-align: center;
             font-weight: bold;
@@ -221,6 +222,8 @@
             position: relative;
             vertical-align: middle;
             cursor: text;
+            box-sizing: content-box;
+            padding: 0 4px;
         }
     </style>
 </head>
@@ -312,6 +315,15 @@ function studioLoop() {
 
 window.onload = function() {
     studioLoop();
+    let inputs = document.querySelectorAll('.btn-input');
+    inputs.forEach(input => {
+        function resizeInput() {
+            let textLength = input.value.lenght
+            input.style.width = (textLenght > 2 ? (textLenght * 7 + 10) : 25) + 'px';
+        }
+        input.addEventListener('input', resizeInput);
+        resizeInput();
+    });
 };
 </script>
 </body>
