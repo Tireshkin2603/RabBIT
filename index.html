@@ -319,7 +319,7 @@ window.onload = function() {
     inputs.forEach(input => {
         function resizeInput() {
             let textLength = input.value.lenght
-            input.style.width = (textLenght > 2 ? (textLenght * 7 + 10) : 25) + 'px';
+            input.style.width = (textLength > 2 ? (textLength * 8 + 6) : 25) + 'px';
         }
         input.addEventListener('input', resizeInput);
         resizeInput();
