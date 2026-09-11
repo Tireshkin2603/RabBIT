@@ -324,17 +324,7 @@ window.onload = function() {
     document.querySelectorAll('.btn-input').forEach(input => resizeInput(input));
     let draggedBlock = null;
 
-    document.querySelectorAll('#blocks-list .btn').forEach(block => {
-        block.addEventListener('dragstart', function(e) {
-            draggedBlock = this.cloneNode(true);
-            draggedBlock.querySelectorAll('.btn-input').forEach(input => {
-                input.setAttribute('oninput', 'resizeInput(this)');
-            });
-            e.dataTransfer.setData('text/plain', ''); 
-        });
-    });
-
-   let activeBlock = null;
+ let activeBlock = null;
     let offsetX = 0;
     let offsetY = 0;
     let workspace = document.getElementById('workspace-zone');
@@ -348,7 +338,6 @@ window.onload = function() {
 
             if (!isClone) {
                 let originalRect = this.getBoundingClientRect();
-                
                 activeBlock = this.cloneNode(true);
                 activeBlock.querySelectorAll('.btn-input').forEach(input => {
                     input.setAttribute('oninput', 'resizeInput(this)');
@@ -374,6 +363,27 @@ window.onload = function() {
             }
         });
     }
+
+    document.addEventListener('mousemove', function(e) {
+        if (activeBlock) {
+            let rect = workspace.getBoundingClientRect();
+            let x = e.clientX - rect.left - offsetX;
+            let y = e.clientY - rect.top - offsetY;
+
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
+            if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
+
+            activeBlock.style.left = x + 'px';
+            activeBlock.style.top = y + 'px';
+            activeBlock.style.margin = "0";
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        activeBlock = null;
+    });
 };
 </script>
 </body>
