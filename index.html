@@ -323,86 +323,112 @@ function studioLoop() {
 window.onload = function() {
     studioLoop();
     document.querySelectorAll('.btn-input').forEach(input => resizeInput(input));
-    let draggedBlock = null;
-    let activeBlock = null;
-    let offsetX = 0;
-    let offsetY = 0;
-    let workspace = document.getElementById('workspace-zone');
+    et lastTime = performance.now();
+let fps = 0;
+let rabbitImg = new Image();
+rabbitImg.src = "rabbit.svg";
 
-    function makeElementDraggable(block, isClone = false) {
-        block.style.cursor = 'grab';
-        
-        block.addEventListener('mousedown', function(e) {
-            if (e.target.classList.contains('btn-input')) return;
-            e.preventDefault();
-            
-            let rect = workspace.getBoundingClientRect();
-            
-            if (!isClone) {
-                let originalRect = this.getBoundingClientRect();
-                activeBlock = this.cloneNode(true);
-                activeBlock.querySelectorAll('.btn-input').forEach(input => {
-                    input.setAttribute('oninput', 'resizeInput(this)');
-                });
-                activeBlock.style.position = "absolute";
-                
-                let startX = originalRect.left - rect.left;
-                let startY = originalRect.top - rect.top;
-                activeBlock.style.left = startX + 'px';
-                activeBlock.style.top = startY + 'px';
-                activeBlock.style.margin = "0";
-                
-                workspace.appendChild(activeBlock);
-                makeElementDraggable(activeBlock, true);
-                
-                offsetX = e.clientX - originalRect.left;
-                offsetY = e.clientY - originalRect.top;
-            } else {
-                activeBlock = this;
-                let currentRect = block.getBoundingClientRect();
-                offsetX = e.clientX - currentRect.left;
-                offsetY = e.clientY - currentRect.top;
-            }
-            
-            activeBlock.style.cursor = 'grabbing';
-        });
+let draggedBlock = null;
+let activeBlock = null;
+let offsetX = 0;
+let offsetY = 0;
+
+function resizeInput(input) {
+    let textLength = input.value.length;
+    input.size = textLength > 1 ? textLength : 1; 
+}
+
+function studioLoop() {
+    let canvas = document.getElementById("screen");
+    if (canvas) {
+        let ctx = canvas.getContext("2d");
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(rabbitImg, canvas.width / 2 - 50, canvas.height / 2 - 75, 100, 150);
+        let now = performance.now();
+        let duration = now - lastTime;
+        if (duration > 0) fps = Math.round(1000 / duration);
+        lastTime = now;
+        let fpsDisplay = document.getElementById("fps-val");
+        if (fpsDisplay) fpsDisplay.innerText = fps;
     }
+    requestAnimationFrame(studioLoop);
+}
 
-    document.addEventListener('mousemove', function(e) {
-        if (activeBlock) {
-            activeBlock.style.cursor = 'grabbing';
-            let rect = workspace.getBoundingClientRect();
-            let x = e.clientX - rect.left - offsetX;
-            let y = e.clientY - rect.top - offsetY;
-
-            if (x < 0) x = 0;
-            if (y < 0) y = 0;
-            if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
-            if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
-
-            activeBlock.style.left = x + 'px';
-            activeBlock.style.top = y + 'px';
-            activeBlock.style.margin = "0";
-        }
-    });
-
-    document.addEventListener('mouseup', function() {
-        if (activeBlock) {
-            activeBlock.style.cursor = 'grab';
-            activeBlock = null;
-        }
-    });
-
-    window.onload = function() {
-        studioLoop();
+function makeElementDraggable(block, isClone = false) {
+    let workspace = document.getElementById('workspace-zone');
+    block.style.cursor = 'grab';
+    block.ondragstart = function() { return false; };
+    
+    block.addEventListener('mousedown', function(e) {
+        if (e.target.classList.contains('btn-input')) return;
+        e.preventDefault();
         
-        document.querySelectorAll('#blocks-list .btn').forEach(block => {
-            block.setAttribute('draggable', 'false');
-            makeElementDraggable(block, false);
-        });
+        let rect = workspace.getBoundingClientRect();
+        
+        if (!isClone) {
+            let originalRect = this.getBoundingClientRect();
+            activeBlock = this.cloneNode(true);
+            activeBlock.querySelectorAll('.btn-input').forEach(input => {
+                input.setAttribute('oninput', 'resizeInput(this)');
+            });
+            activeBlock.style.position = "absolute";
+            
+            let startX = originalRect.left - rect.left;
+            let startY = originalRect.top - rect.top;
+            activeBlock.style.left = startX + 'px';
+            activeBlock.style.top = startY + 'px';
+            activeBlock.style.margin = "0";
+            
+            workspace.appendChild(activeBlock);
+            makeElementDraggable(activeBlock, true);
+            
+            offsetX = e.clientX - originalRect.left;
+            offsetY = e.clientY - originalRect.top;
+        } else {
+            activeBlock = this;
+            let currentRect = block.getBoundingClientRect();
+            offsetX = e.clientX - currentRect.left;
+            offsetY = e.clientY - currentRect.top;
+        }
+        activeBlock.style.cursor = 'grabbing';
+    });
+}
 
-        document.querySelectorAll('.btn-input').forEach(input => resizeInput(input));
-    };
+document.addEventListener('mousemove', function(e) {
+    let workspace = document.getElementById('workspace-zone');
+    if (activeBlock && workspace) {
+        activeBlock.style.cursor = 'grabbing';
+        let rect = workspace.getBoundingClientRect();
+        let x = e.clientX - rect.left - offsetX;
+        let y = e.clientY - rect.top - offsetY;
+
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
+        if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
+
+        activeBlock.style.left = x + 'px';
+        activeBlock.style.top = y + 'px';
+        activeBlock.style.margin = "0";
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    if (activeBlock) {
+        activeBlock.style.cursor = 'grab';
+        activeBlock = null;
+    }
+});
+
+window.onload = function() {
+    studioLoop();
+    document.querySelectorAll('#blocks-list .btn').forEach(block => {
+        block.setAttribute('draggable', 'false');
+        makeElementDraggable(block, false);
+    });
+};
 };
 </script>
 </body>
