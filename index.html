@@ -323,67 +323,99 @@ window.onload = function() {
     studioLoop();
     document.querySelectorAll('.btn-input').forEach(input => resizeInput(input));
     let draggedBlock = null;
-
- let activeBlock = null;
     let offsetX = 0;
     let offsetY = 0;
     let workspace = document.getElementById('workspace-zone');
 
-    function makeElementDraggable(block, isClone = false) {
+    document.querySelectorAll('#blocks-list .btn').forEach(block => {
+        block.setAttribute('draggable', 'true');
+        
+        block.addEventListener('dragstart', function(e) {
+            if (e.target.classList.contains('btn-input')) {
+                e.preventDefault();
+                return;
+            }
+            
+            let rect = this.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            
+            draggedBlock = this.cloneNode(true);
+            draggedBlock.querySelectorAll('.btn-input').forEach(input => {
+                input.setAttribute('oninput', 'resizeInput(this)');
+            });
+            
+            e.dataTransfer.setData('text/plain', '');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+    });
+
+    workspace.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    });
+
+    workspace.addEventListener('drop', function(e) {
+        e.preventDefault();
+        if (draggedBlock) {
+            draggedBlock.style.position = "absolute";
+            
+            let rect = workspace.getBoundingClientRect();
+            let x = e.clientX - rect.left - offsetX;
+            let y = e.clientY - rect.top - offsetY;
+            
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x > rect.width - draggedBlock.offsetWidth) x = rect.width - draggedBlock.offsetWidth;
+            if (y > rect.height - draggedBlock.offsetHeight) y = rect.height - draggedBlock.offsetHeight;
+            
+            draggedBlock.style.left = x + 'px';
+            draggedBlock.style.top = y + 'px';
+            draggedBlock.style.margin = "0";
+            
+            workspace.appendChild(draggedBlock);
+            
+            makeElementDraggableInside(draggedBlock);
+            draggedBlock = null;
+        }
+    });
+
+    function makeElementDraggableInside(block) {
+        block.setAttribute('draggable', 'false');
+        block.style.cursor = 'move';
+        
         block.addEventListener('mousedown', function(e) {
             if (e.target.classList.contains('btn-input')) return;
             e.preventDefault();
             
+            let currentBlock = this;
             let rect = workspace.getBoundingClientRect();
-
-            if (!isClone) {
-                let originalRect = this.getBoundingClientRect();
-                activeBlock = this.cloneNode(true);
-                activeBlock.querySelectorAll('.btn-input').forEach(input => {
-                    input.setAttribute('oninput', 'resizeInput(this)');
-                });
-                activeBlock.style.position = "absolute";
+            let blockRect = currentBlock.getBoundingClientRect();
+            let innerOffsetX = e.clientX - blockRect.left;
+            let innerOffsetY = e.clientY - blockRect.top;
+            
+            function onMouseMove(moveEvent) {
+                let x = moveEvent.clientX - rect.left - innerOffsetX;
+                let y = moveEvent.clientY - rect.top - innerOffsetY;
                 
-                let startX = originalRect.left - rect.left;
-                let startY = originalRect.top - rect.top;
-                activeBlock.style.left = startX + 'px';
-                activeBlock.style.top = startY + 'px';
-                activeBlock.style.margin = "0";
+                if (x < 0) x = 0;
+                if (y < 0) y = 0;
+                if (x > rect.width - currentBlock.offsetWidth) x = rect.width - currentBlock.offsetWidth;
+                if (y > rect.height - currentBlock.offsetHeight) y = rect.height - currentBlock.offsetHeight;
                 
-                workspace.appendChild(activeBlock);
-                makeElementDraggable(activeBlock, true);
-                
-                offsetX = e.clientX - originalRect.left;
-                offsetY = e.clientY - originalRect.top;
-            } else {
-                activeBlock = this;
-                let currentRect = block.getBoundingClientRect();
-                offsetX = e.clientX - currentRect.left;
-                offsetY = e.clientY - currentRect.top;
+                currentBlock.style.left = x + 'px';
+                currentBlock.style.top = y + 'px';
             }
+            
+            function onMouseUp() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
         });
     }
-
-    document.addEventListener('mousemove', function(e) {
-        if (activeBlock) {
-            let rect = workspace.getBoundingClientRect();
-            let x = e.clientX - rect.left - offsetX;
-            let y = e.clientY - rect.top - offsetY;
-
-            if (x < 0) x = 0;
-            if (y < 0) y = 0;
-            if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
-            if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
-
-            activeBlock.style.left = x + 'px';
-            activeBlock.style.top = y + 'px';
-            activeBlock.style.margin = "0";
-        }
-    });
-
-    document.addEventListener('mouseup', function() {
-        activeBlock = null;
-    });
 };
 </script>
 </body>
