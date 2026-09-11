@@ -312,17 +312,17 @@ function studioLoop() {
     requestAnimationFrame(studioLoop);
 }
 
-window.onload = function() {
-    studioLoop();
     let inputs = document.querySelectorAll('.btn-input');
     inputs.forEach(input => {
         function resizeInput() {
-            let textLength = input.value.lenght
-            input.style.width = (textLength > 2 ? (textLength * 8 + 6) : 25) + 'px';
-        }
-        input.addEventListener('input', resizeInput);
-        resizeInput();
-    });
+            let textLength = input.value.length
+            input.size = textLength > 2 ? textLength : 2;
+            input.style.width = textLength > 2 ? 'auto' : '25px';
+        });
+    }
+window.onload = function() {
+    studioLoop();
+    document.querySelectorAll('.btn-input').forEach(input => resizeInput(input));
 };
 </script>
 </body>
