@@ -150,6 +150,7 @@
             padding: 12px;
             box-sizing: border-box;
             overflow: auto;
+            position: relative;
         }
         #right-sidebar {
             width: 220px;
@@ -338,11 +339,19 @@ window.onload = function() {
         e.preventDefault();
     });
 
-    workspace.addEventListener('drop', function(e) {
+   workspace.addEventListener('drop', function(e) {
         e.preventDefault();
         if (draggedBlock) {
-            draggedBlock.style.margin = "10px 0";
-            draggedBlock.style.display = "flex";
+            draggedBlock.style.position = "absolute";
+            
+            let rect = workspace.getBoundingClientRect();
+            let x = e.clientX - rect.left - 20; 
+            let y = e.clientY - rect.top - 20;  
+            
+            draggedBlock.style.left = x + 'px';
+            draggedBlock.style.top = y + 'px';
+            draggedBlock.style.margin = "0";
+            
             workspace.appendChild(draggedBlock);
             draggedBlock = null;
         }
