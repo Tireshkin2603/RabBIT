@@ -334,27 +334,57 @@ window.onload = function() {
         });
     });
 
+   let activeBlock = null;
+    let offsetX = 0;
+    let offsetY = 0;
     let workspace = document.getElementById('workspace-zone');
-    workspace.addEventListener('dragover', function(e) {
-        e.preventDefault();
+
+    function makeElementDraggable(block, isClone = false) {
+        block.addEventListener('mousedown', function(e) {
+            if (e.target.classList.contains('btn-input')) return;
+            e.preventDefault();
+            
+            if (!isClone) {
+                activeBlock = this.cloneNode(true);
+                activeBlock.querySelectorAll('.btn-input').forEach(input => {
+                    input.setAttribute('oninput', 'resizeInput(this)');
+                });
+                activeBlock.style.position = "absolute";
+                workspace.appendChild(activeBlock);
+                makeElementDraggable(activeBlock, true);
+            } else {
+                activeBlock = this;
+            }
+
+            let rect = activeBlock.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+        });
+    }
+
+    document.querySelectorAll('#blocks-list .btn').forEach(block => {
+        makeElementDraggable(block, false);
     });
 
-   workspace.addEventListener('drop', function(e) {
-        e.preventDefault();
-        if (draggedBlock) {
-            draggedBlock.style.position = "absolute";
-            
+    document.addEventListener('mousemove', function(e) {
+        if (activeBlock) {
             let rect = workspace.getBoundingClientRect();
-            let x = e.clientX - rect.left - 20; 
-            let y = e.clientY - rect.top - 20;  
-            
-            draggedBlock.style.left = x + 'px';
-            draggedBlock.style.top = y + 'px';
-            draggedBlock.style.margin = "0";
-            
-            workspace.appendChild(draggedBlock);
-            draggedBlock = null;
+            let x = e.clientX - rect.left - offsetX;
+            let y = e.clientY - rect.top - offsetY;
+
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
+            if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
+
+            activeBlock.style.left = x + 'px';
+            activeBlock.style.top = y + 'px';
+            activeBlock.style.margin = "0";
         }
+    });
+
+    document.addEventListener('mouseup', function() {
+        activeBlock = null;
     });
 };
 </script>
