@@ -382,13 +382,15 @@ window.onload = function() {
 
     function makeElementDraggableInside(block) {
         block.setAttribute('draggable', 'false');
-        block.style.cursor = 'move';
+        block.style.cursor = 'grab';
         
         block.addEventListener('mousedown', function(e) {
             if (e.target.classList.contains('btn-input')) return;
             e.preventDefault();
             
             let currentBlock = this;
+            currentBlock.style.cursor = 'grabbing';
+            
             let rect = workspace.getBoundingClientRect();
             let blockRect = currentBlock.getBoundingClientRect();
             let innerOffsetX = e.clientX - blockRect.left;
@@ -408,6 +410,7 @@ window.onload = function() {
             }
             
             function onMouseUp() {
+                currentBlock.style.cursor = 'grab';
                 document.removeEventListener('mousemove', onMouseMove);
                 document.removeEventListener('mouseup', onMouseUp);
             }
