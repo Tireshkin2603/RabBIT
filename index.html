@@ -344,48 +344,36 @@ window.onload = function() {
             if (e.target.classList.contains('btn-input')) return;
             e.preventDefault();
             
+            let rect = workspace.getBoundingClientRect();
+
             if (!isClone) {
+                let originalRect = this.getBoundingClientRect();
+                
                 activeBlock = this.cloneNode(true);
                 activeBlock.querySelectorAll('.btn-input').forEach(input => {
                     input.setAttribute('oninput', 'resizeInput(this)');
                 });
                 activeBlock.style.position = "absolute";
+                
+                let startX = originalRect.left - rect.left;
+                let startY = originalRect.top - rect.top;
+                activeBlock.style.left = startX + 'px';
+                activeBlock.style.top = startY + 'px';
+                activeBlock.style.margin = "0";
+                
                 workspace.appendChild(activeBlock);
                 makeElementDraggable(activeBlock, true);
+                
+                offsetX = e.clientX - originalRect.left;
+                offsetY = e.clientY - originalRect.top;
             } else {
                 activeBlock = this;
+                let currentRect = block.getBoundingClientRect();
+                offsetX = e.clientX - currentRect.left;
+                offsetY = e.clientY - currentRect.top;
             }
-
-            let rect = activeBlock.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
         });
     }
-
-    document.querySelectorAll('#blocks-list .btn').forEach(block => {
-        makeElementDraggable(block, false);
-    });
-
-    document.addEventListener('mousemove', function(e) {
-        if (activeBlock) {
-            let rect = workspace.getBoundingClientRect();
-            let x = e.clientX - rect.left - offsetX;
-            let y = e.clientY - rect.top - offsetY;
-
-            if (x < 0) x = 0;
-            if (y < 0) y = 0;
-            if (x > rect.width - activeBlock.offsetWidth) x = rect.width - activeBlock.offsetWidth;
-            if (y > rect.height - activeBlock.offsetHeight) y = rect.height - activeBlock.offsetHeight;
-
-            activeBlock.style.left = x + 'px';
-            activeBlock.style.top = y + 'px';
-            activeBlock.style.margin = "0";
-        }
-    });
-
-    document.addEventListener('mouseup', function() {
-        activeBlock = null;
-    });
 };
 </script>
 </body>
