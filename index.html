@@ -312,7 +312,7 @@ function studioLoop() {
     requestAnimationFrame(studioLoop);
 }
 
-        function resizeInput() {
+        function resizeInput(input) {
             let textLength = input.value.length
             input.size = textLength > 2 ? textLength : 2;
             input.style.width = textLength > 2 ? 'auto' : '25px';
